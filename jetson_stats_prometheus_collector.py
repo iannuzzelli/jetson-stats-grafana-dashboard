@@ -3,7 +3,7 @@
 
 # MIT License
 #
-# Copyright (c) 2021 Stefan von Cavallar
+# Copyright (c) 2024 Amirali.T
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import time
 import atexit
 import argparse
 from jtop import jtop, JtopException
@@ -195,5 +196,6 @@ if __name__ == '__main__':
 
     start_http_server(args.port)
     REGISTRY.register(JetsonNanoCollector())
-
-    input()
+    
+    while(True):
+        time.sleep(60)
