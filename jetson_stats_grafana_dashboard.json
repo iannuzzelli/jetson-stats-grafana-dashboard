@@ -27,7 +27,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "10.2.4"
+      "version": "11.0.0"
     },
     {
       "type": "datasource",
@@ -161,24 +161,30 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {},
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.2.4",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
+          "disableTextWrap": false,
+          "editorMode": "builder",
           "exemplar": true,
-          "expr": "jetson_uptime",
+          "expr": "jetson_uptime{instance=\"$instance\"}",
           "format": "time_series",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "instant": true,
           "interval": "",
           "legendFormat": "",
-          "refId": "System Uptime"
+          "refId": "System Uptime",
+          "useBackend": false
         }
       ],
       "title": "System Uptime",
@@ -277,6 +283,7 @@
           "showLegend": true
         },
         "tooltip": {
+          "maxHeight": 600,
           "mode": "single",
           "sort": "none"
         }
@@ -290,7 +297,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "jetson_usage_gpu{gpu=\"val\"}",
+          "expr": "jetson_usage_gpu{gpu=\"val\", instance=\"$instance\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -350,7 +357,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
+        "h": 8,
         "w": 10,
         "x": 14,
         "y": 0
@@ -375,7 +382,7 @@
         "text": {},
         "valueMode": "color"
       },
-      "pluginVersion": "10.2.4",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -384,7 +391,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "jetson_usage_cpu",
+          "expr": "jetson_usage_cpu{instance=\"$instance\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "__auto",
@@ -416,17 +423,28 @@
             "includeByName": {},
             "indexByName": {
               "Time": 0,
-              "__name__": 3,
-              "cpu_1": 2,
+              "__name__": 2,
+              "cpu_1": 5,
+              "cpu_10": 14,
+              "cpu_11": 15,
+              "cpu_12": 16,
               "cpu_2": 6,
               "cpu_3": 7,
               "cpu_4": 8,
+              "cpu_5": 9,
+              "cpu_6": 10,
+              "cpu_7": 11,
+              "cpu_8": 12,
+              "cpu_9": 13,
               "cpu_total": 1,
-              "instance": 4,
-              "job": 5
+              "instance": 3,
+              "job": 4
             },
             "renameByName": {
               "cpu_1": "CPU 1",
+              "cpu_10": "CPU 10",
+              "cpu_11": "CPU 11",
+              "cpu_12": "CPU 12",
               "cpu_2": "CPU 2",
               "cpu_3": "CPU 3",
               "cpu_4": "CPU 4",
@@ -434,6 +452,7 @@
               "cpu_6": "CPU 6",
               "cpu_7": "CPU 7",
               "cpu_8": "CPU 8",
+              "cpu_9": "CPU 9",
               "cpu_total": "Total CPU",
               "job": ""
             }
@@ -501,19 +520,24 @@
         "sizing": "auto",
         "text": {}
       },
-      "pluginVersion": "10.2.4",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
+          "disableTextWrap": false,
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "jetson_usage_fan",
+          "expr": "jetson_usage_fan{instance=\"$instance\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "instant": true,
           "interval": "",
           "legendFormat": "",
-          "refId": "Fan Usage"
+          "refId": "Fan Usage",
+          "useBackend": false
         }
       ],
       "title": "Fan",
@@ -606,6 +630,7 @@
           "showLegend": true
         },
         "tooltip": {
+          "maxHeight": 600,
           "mode": "single",
           "sort": "none"
         }
@@ -618,7 +643,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "jetson_usage_ram{type=\"used\"}",
+          "expr": "jetson_usage_ram{type=\"used\", instance=\"$instance\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -667,10 +692,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
+        "h": 5,
         "w": 10,
         "x": 14,
-        "y": 6
+        "y": 8
       },
       "id": 15,
       "interval": "5s",
@@ -690,21 +715,25 @@
         "sizing": "auto",
         "text": {}
       },
-      "pluginVersion": "10.2.4",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
+          "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": true,
-          "expr": "jetson_temperatures",
+          "expr": "jetson_temperatures{instance=\"$instance\"}",
+          "fullMetaSearch": false,
           "hide": false,
+          "includeNullMetadata": true,
           "instant": true,
           "interval": "",
           "legendFormat": "",
-          "refId": "Sensor Temperatures"
+          "refId": "Sensor Temperatures",
+          "useBackend": false
         }
       ],
       "title": "Sensor Temperatures",
@@ -724,16 +753,38 @@
           "options": {
             "excludeByName": {},
             "includeByName": {},
-            "indexByName": {},
+            "indexByName": {
+              "Time": 0,
+              "__name__": 3,
+              "cpu": 1,
+              "cv0": 10,
+              "cv1": 11,
+              "cv2": 12,
+              "gpu": 2,
+              "instance": 4,
+              "job": 5,
+              "soc0": 6,
+              "soc1": 8,
+              "soc2": 7,
+              "tj": 9
+            },
             "renameByName": {
               "ao": "AO",
               "aux": "AUX",
               "cpu": "CPU",
+              "cv0": "Cv0",
+              "cv1": "Cv1",
+              "cv2": "Cv2",
               "gpu": "GPU",
+              "job": "",
               "pll": "PLL",
-              "tboard": "Tboard",
-              "tdiode": "Tdiode",
-              "thermal": "Thermal"
+              "soc0": "SoC 0",
+              "soc1": "SoC 2",
+              "soc2": "SoC 1",
+              "tboard": "Board",
+              "tdiode": "Diode",
+              "thermal": "Thermal",
+              "tj": "Thermal"
             }
           }
         }
@@ -820,29 +871,33 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.2.4",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "editorMode": "code",
+          "disableTextWrap": false,
+          "editorMode": "builder",
           "exemplar": false,
-          "expr": "jetson_usage_ram{type=\"total\"}",
+          "expr": "jetson_usage_ram{type=\"total\", instance=\"$instance\"}",
           "format": "time_series",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "instant": true,
           "interval": "",
           "legendFormat": "{{device}}",
           "range": false,
-          "refId": "RAM Usage"
+          "refId": "RAM Usage",
+          "useBackend": false
         }
       ],
       "title": "Total Memory",
-      "transformations": [],
       "type": "stat"
     },
     {
@@ -881,7 +936,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
+        "h": 3,
         "w": 10,
         "x": 4,
         "y": 12
@@ -900,23 +955,29 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {},
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.2.4",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
+          "disableTextWrap": false,
+          "editorMode": "builder",
           "exemplar": true,
-          "expr": "jetson_usage_power",
+          "expr": "jetson_usage_power{instance=\"$instance\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "instant": true,
           "interval": "",
           "legendFormat": "",
-          "refId": "Power Usage"
+          "refId": "Power Usage",
+          "useBackend": false
         }
       ],
       "title": "Power Usage",
@@ -1028,10 +1089,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
+        "h": 5,
         "w": 10,
         "x": 14,
-        "y": 12
+        "y": 13
       },
       "id": 2,
       "interval": "5s",
@@ -1043,6 +1104,7 @@
           "showLegend": true
         },
         "tooltip": {
+          "maxHeight": 600,
           "mode": "single",
           "sort": "none"
         }
@@ -1054,20 +1116,149 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "editorMode": "code",
+          "disableTextWrap": false,
+          "editorMode": "builder",
           "exemplar": false,
-          "expr": "jetson_usage_disk{disk=\"used\"}",
+          "expr": "jetson_usage_disk{disk=\"used\", instance=\"$instance\"}",
           "format": "table",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "instant": false,
           "interval": "",
           "legendFormat": "__auto",
           "range": true,
-          "refId": "Disk Usage"
+          "refId": "Disk Usage",
+          "useBackend": false
         }
       ],
       "title": "Used Disk Space",
-      "transformations": [],
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "rgb(153, 154, 156)",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(168, 168, 168)",
+                "value": null
+              },
+              {
+                "color": "light-orange",
+                "value": 70
+              },
+              {
+                "color": "dark-red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "mvolt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 10,
+        "x": 4,
+        "y": 15
+      },
+      "id": 21,
+      "interval": "5s",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {},
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "exemplar": true,
+          "expr": "jetson_voltages{instance=\"$instance\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "Power Usage",
+          "useBackend": false
+        }
+      ],
+      "title": "Power Usage",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "valueLabel": "volts"
+          }
+        },
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "cv": true,
+              "instance": true,
+              "job": true,
+              "soc": true,
+              "sys5v": true,
+              "vddrq": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "ao": "AO",
+              "aux": "AUX",
+              "cpu": "CPU",
+              "cv": "CV",
+              "gpu": "GPU",
+              "in": "Input",
+              "soc": "SOC",
+              "sys5v": "SYS5V",
+              "tboard": "Tboard",
+              "tdiode": "Tdiode",
+              "thermal": "Thermal",
+              "vddrq": "VDDRQ"
+            }
+          }
+        }
+      ],
+      "type": "stat"
     },
     {
       "datasource": {
@@ -1130,8 +1321,8 @@
         ]
       },
       "gridPos": {
-        "h": 6,
-        "w": 4,
+        "h": 4,
+        "w": 6,
         "x": 0,
         "y": 18
       },
@@ -1150,22 +1341,26 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "10.2.4",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "editorMode": "code",
+          "disableTextWrap": false,
+          "editorMode": "builder",
           "exemplar": false,
-          "expr": "jetson_network_info",
+          "expr": "jetson_network_info{instance=\"$instance\"}",
           "format": "table",
+          "fullMetaSearch": false,
           "hide": false,
+          "includeNullMetadata": true,
           "instant": true,
           "legendFormat": "",
           "range": false,
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
         }
       ],
       "title": "IP Addresses",
@@ -1351,9 +1546,9 @@
         ]
       },
       "gridPos": {
-        "h": 6,
-        "w": 20,
-        "x": 4,
+        "h": 4,
+        "w": 18,
+        "x": 6,
         "y": 18
       },
       "id": 12,
@@ -1370,21 +1565,25 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "10.2.4",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "editorMode": "code",
+          "disableTextWrap": false,
+          "editorMode": "builder",
           "exemplar": true,
-          "expr": "jetson_board_info",
+          "expr": "jetson_board_info{instance=\"$instance\"}",
           "format": "table",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "instant": true,
           "interval": "",
           "legendFormat": "",
-          "refId": "Board Info"
+          "refId": "Board Info",
+          "useBackend": false
         }
       ],
       "title": "Board Info",
@@ -1437,16 +1636,42 @@
   "schemaVersion": 39,
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DS_PROMETHEUS}"
+        },
+        "definition": "label_values({job=\"nvidia_jetson\"},instance)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "instance",
+        "multi": false,
+        "name": "instance",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values({job=\"nvidia_jetson\"},instance)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
   },
   "time": {
     "from": "now-5m",
     "to": "now"
   },
+  "timeRangeUpdatedDuringEditOrView": false,
   "timepicker": {},
   "timezone": "",
   "title": "NVIDIA Jetson",
   "uid": "n6FGltjMz",
-  "version": 22,
+  "version": 8,
   "weekStart": ""
 }
