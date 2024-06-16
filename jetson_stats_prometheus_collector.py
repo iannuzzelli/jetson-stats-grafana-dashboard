@@ -67,7 +67,7 @@ class JetsonNanoCollector(object):
                 'l4t': self._jetson.board['hardware']['L4T'],
                 'module': self._jetson.board['hardware']['Module'],
                 'type': self._jetson.board['hardware']['Model'],
-                'codename': self._jetson.board['hardware']['Codename'],
+                # 'codename': self._jetson.board['hardware']['Codename'],
                 'soc': self._jetson.board['hardware']['SoC'],
                 'cuda_arch_bin': self._jetson.board['hardware']['CUDA Arch BIN'],
                 'serial_number': self._jetson.board['hardware']['Serial Number'],
