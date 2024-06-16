@@ -53,6 +53,7 @@ class JetsonNanoCollector(object):
         yield from self.collect_fan_usage()
         yield from self.collect_sensor_temperatures()
         yield from self.collect_power_usage()
+        yield from self.collect_voltages()
         yield from self.collect_network_interfaces()
 
     def collect_board_info(self):
@@ -146,7 +147,7 @@ class JetsonNanoCollector(object):
     def collect_fan_usage(self):
         try:
             g = GaugeMetricFamily('jetson_usage_fan', 'Fan usage', labels=['fan'])
-            g.add_metric(['speed'], self._jetson.fan['tegra_pwmfan']['speed'][0])
+            g.add_metric(['speed'], self._jetson.fan['pwmfan']['speed'][0])
             yield g
         except JtopException as e:
             print("Jtop Error collecting fan usage: " + str(e))
@@ -156,11 +157,9 @@ class JetsonNanoCollector(object):
     def collect_sensor_temperatures(self):
         try:
             g = GaugeMetricFamily('jetson_temperatures', 'Sensor temperatures', labels=['device'])
-            g.add_metric(['ao'], self._jetson.temperature['AO']['temp'] if 'AO' in self._jetson.temperature else 0)
-            g.add_metric(['cpu'], self._jetson.temperature['CPU']['temp'] if 'CPU' in self._jetson.temperature else 0)
-            g.add_metric(['gpu'], self._jetson.temperature['GPU']['temp'] if 'GPU' in self._jetson.temperature else 0)
-            g.add_metric(['pll'], self._jetson.temperature['PLL']['temp'] if 'PLL' in self._jetson.temperature else 0)
-            g.add_metric(['thermal'], self._jetson.temperature['thermal']['temp'] if 'thermal' in self._jetson.temperature else 0)
+            for item in self._jetson.temperature:
+                if self._jetson.temperature[item]['online']:
+                    g.add_metric([item], self._jetson.temperature[item]['temp'])
             yield g
         except JtopException as e:
             print("Jtop Error collecting sensor temperatures: " + str(e))
@@ -168,12 +167,25 @@ class JetsonNanoCollector(object):
     def collect_power_usage(self):
         try:
             g = GaugeMetricFamily('jetson_usage_power', 'Power usage', labels=['power'])
-            g.add_metric(['in'], self._jetson.power['tot']['power'])
-            g.add_metric(['cpu'], self._jetson.power['rail']['POM_5V_CPU']['power'])
-            g.add_metric(['gpu'], self._jetson.power['rail']['POM_5V_GPU']['power'])
+            for item in self._jetson.power['rail']:
+                if self._jetson.power['rail'][item]['online']:
+                    g.add_metric([item], self._jetson.power['rail'][item]['power'])
+            g.add_metric(['total'], self._jetson.power['tot']['power'])
             yield g
         except JtopException as e:
             print("Jtop Error collecting power usage: " + str(e))
+        except Exception as e:
+            print("Error collecting board info: " + str(e))
+
+    def collect_voltages(self):
+        try:
+            g = GaugeMetricFamily('jetson_voltages', 'Voltages', labels=['volts','power'])
+            for item in self._jetson.power['rail']:
+                if self._jetson.power['rail'][item]['online']:
+                    g.add_metric([item], self._jetson.power['rail'][item]['volt'])
+            yield g
+        except JtopException as e:
+            print("Jtop Error collecting voltages: " + str(e))
         except Exception as e:
             print("Error collecting board info: " + str(e))
 
