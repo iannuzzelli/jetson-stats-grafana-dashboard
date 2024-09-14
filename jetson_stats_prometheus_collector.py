@@ -29,8 +29,10 @@ from jtop import jtop, JtopException
 from prometheus_client.core import InfoMetricFamily, GaugeMetricFamily, REGISTRY
 from prometheus_client import start_http_server
 
+PROMETHEUS_PORT = 9100
+COLLECTOR_SLEEP_TIME = 60
 
-class JetsonNanoCollector(object):
+class JetsonAgxOrinCollector(object):
     def __init__(self):
         atexit.register(self.cleanup)
 
@@ -99,7 +101,7 @@ class JetsonNanoCollector(object):
         try:
             g = GaugeMetricFamily('jetson_usage_cpu', 'CPU % schedutil', labels=['cpu'])
             for i in range(len(self._jetson.cpu['cpu'])):
-                g.add_metric(['cpu_' + str(i + 1)], 100.0 - self._jetson.cpu['cpu'][i]['idle'])
+                g.add_metric(['cpu_{:02d}'.format(i + 1)], 100.0 - self._jetson.cpu['cpu'][i]['idle'])
 
             g.add_metric(['cpu_total'], 100.0 - self._jetson.cpu['total']['idle'])
             yield g
@@ -203,11 +205,18 @@ class JetsonNanoCollector(object):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--port', type=int, default=8000, help='Metrics collector port number')
+    parser.add_argument('-p', '--port', type=int, default=PROMETHEUS_PORT, help='Metrics collector port number')
+    parser.add_argument('-o', '--output', type=bool, default=False, help='Whether to show output and exit')
     args = parser.parse_args()
 
-    start_http_server(args.port)
-    REGISTRY.register(JetsonNanoCollector())
-    
-    while(True):
-        time.sleep(60)
+    if args.output:
+        j_collector = JetsonAgxOrinCollector()
+        for metric in j_collector.collect():
+            for sample in metric.samples:
+                print("Name: {0} Labels: {1} Value: {2}".format(*sample))
+    else:
+        start_http_server(args.port)
+        REGISTRY.register(JetsonAgxOrinCollector())
+
+        while(True):
+            time.sleep(COLLECTOR_SLEEP_TIME)
