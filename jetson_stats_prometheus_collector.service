@@ -3,7 +3,7 @@ Description=jetson_stats_prometheus_collector service
 
 [Service]
 # Type=exec
-ExecStart=/usr/bin/python3 /usr/local/bin/jetson_stats_prometheus_collector.py
+ExecStart=/usr/bin/python3 /data/dev/jetson-stats-grafana-dashboard/jetson_stats_prometheus_collector.py --port 9101
 Restart=on-failure
 RestartSec=10s
 TimeoutStartSec=30s
